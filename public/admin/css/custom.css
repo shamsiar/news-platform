@@ -1,0 +1,43 @@
+.auth-logo{
+    width: 300px;
+}
+.text-red-600{
+	list-style: none;
+    padding: 0;
+    margin: 0;
+    color: #db0505;
+    font-weight: 600;
+}
+.admin-logo{
+    width: 200px;
+}
+.navbar-brand-box{
+    text-align: left;
+}
+.action-buttons{
+    padding: 0;
+}
+.action-buttons li{
+    list-style: none;
+    display: inline;
+    margin: 0 3px;
+}
+.mb-10{
+    margin-bottom: 10px;
+}
+
+.table-card div.dataTables_wrapper .col-md-6 {
+    width: 50% !important;
+}
+@media( min-width:300px ) and (max-width: 768px){
+    .table-card div.dataTables_wrapper .col-md-6 {
+        width: 100% !important;
+    }
+}
+div.dataTables_wrapper div.dataTables_filter {
+    text-align: right;
+    padding: 1rem 2rem 0 0;
+    width: 300px;
+    float: right;
+    display: block;
+}
