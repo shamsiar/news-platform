@@ -1,18 +1,17 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
-
-// Super Admin Dashboard
 use App\Http\Controllers\Admin\AdminPagesController;
 use App\Http\Controllers\Admin\AdminProfileController;
+
+// Super Admin Dashboard
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PostController;
-
+use App\Http\Controllers\Frontend\FrontendPagesController;
+use App\Http\Controllers\ProfileController;
 
 // Customer Frontend
-use App\Http\Controllers\Frontend\FrontendPagesController;
-
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,10 +22,10 @@ use App\Http\Controllers\Frontend\FrontendPagesController;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
 |
-*/
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+ */
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -34,6 +33,20 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// Clear application cache:
+Route::get('/clear-cache', function () {
+    Artisan::call('optimize:clear');
+// Artisan::call('view:clear');
+// Cached events cleared!
+// Compiled views cleared!
+// Application cache cleared!
+// Route cache cleared!
+// Configuration cache cleared!
+// Compiled services and packages files removed!
+// Caches cleared successfully!
+
+    return 'Application cache has been cleared';
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -44,16 +57,16 @@ Route::middleware('auth')->group(function () {
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
 |
-*/
+ */
 
-Route::group(['middleware' => ['auth','isAdmin', 'verified', ], 'prefix' => 'admin'], function(){
+Route::group(['middleware' => ['auth', 'isAdmin', 'verified'], 'prefix' => 'admin'], function () {
     Route::get('/dashboard', [AdminPagesController::class, 'index'])->name('admin.dashboard');
 
     Route::get('/profile', [AdminProfileController::class, 'index'])->name('admin.profileView');
     Route::post('/profile/{id}', [AdminProfileController::class, 'update'])->name('admin.profileUpdate');
 
     // Category
-    Route::group([ 'prefix' => '/category' ], function(){
+    Route::group(['prefix' => '/category'], function () {
         Route::get('/manage', [CategoryController::class, 'index'])->name('category.manage');
         Route::get('/create', [CategoryController::class, 'create'])->name('category.create');
         Route::post('/store', [CategoryController::class, 'store'])->name('category.store');
@@ -63,7 +76,7 @@ Route::group(['middleware' => ['auth','isAdmin', 'verified', ], 'prefix' => 'adm
     });
 
     // Post
-    Route::group([ 'prefix' => '/post' ], function(){
+    Route::group(['prefix' => '/post'], function () {
         Route::get('/manage', [PostController::class, 'index'])->name('post.manage');
         Route::get('/create', [PostController::class, 'create'])->name('post.create');
         Route::post('/store', [PostController::class, 'store'])->name('post.store');
@@ -71,7 +84,6 @@ Route::group(['middleware' => ['auth','isAdmin', 'verified', ], 'prefix' => 'adm
         Route::post('/update/{id}', [PostController::class, 'update'])->name('post.update');
         Route::post('/destroy/{id}', [PostController::class, 'destroy'])->name('post.destroy');
     });
-
 
 });
 
@@ -84,10 +96,9 @@ Route::group(['middleware' => ['auth','isAdmin', 'verified', ], 'prefix' => 'adm
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
 |
-*/
+ */
 // Home Page
 Route::get('/', [FrontendPagesController::class, 'homepage'])->name('home.page');
+Route::get('post/{id}', [FrontendPagesController::class, 'show'])->name('post.show');
 
-
-
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

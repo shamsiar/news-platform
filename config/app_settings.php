@@ -6,7 +6,7 @@ return [
     'sections' => [
         'app' => [
             'title' => 'General Settings',
-            'descriptions' => 'Application general settings.', // (optional)
+            // 'descriptions' => 'Application general settings.', // (optional)
             'icon' => 'fa fa-cog', // (optional)
 
             'inputs' => [
@@ -16,62 +16,99 @@ return [
                     'label' => 'App Name', // label for input
                     // optional properties
                     'placeholder' => 'Application Name', // placeholder for input
-                    'class' => 'form-control', // override global input_class
+                    'class' => 'form-control mb-3', // override global input_class
                     'style' => '', // any inline styles
                     'rules' => 'required|min:2|max:20', // validation rules for this input
-                    'value' => 'QCode', // any default value
-                    'hint' => 'You can set the app name here' // help block text for input
+                    'value' => '', // any default value
+                    'hint' => 'You can set the app name here', // help block text for input
+                ],
+                // email
+                [
+                    'name' => 'from_email',
+                    'type' => 'email',
+                    'label' => 'Email',
+                    // optional fields
+                    // 'rules' => 'required|email',
+                    'placeholder' => 'Emails will be sent from this address',
+                    'class' => 'form-control mb-3',
+                    // 'style' => 'color:red',
+                    'value' => '',
+                    'hint' => 'All the system generated email will be sent from this address.',
+                ],
+                [
+                    'type' => 'text',
+                    'name' => 'footer_note',
+                    'label' => 'Footer Note',
+                    'class' => 'form-control mb-3', // override global input_class
+                    'value' => '© All Rights Reserved The Editorial Post 2024.',
+                    // 'class' => 'summernote',
+                    // 'rows' => 4,
+                    // 'cols' => 10,
+                    // 'placeholder' => 'What you want user to show when app is in maintenance mode.',
                 ],
                 [
                     'name' => 'logo',
                     'type' => 'image',
                     'label' => 'Upload logo',
-                    'hint' => 'Must be an image and cropped in desired size',
-                    'rules' => 'image|max:500',
-                    'disk' => 'public', // which disk you want to upload
-                    'path' => 'app', // path on the disk,
-                    'preview_class' => 'thumbnail',
-                    'preview_style' => 'height:40px'
+                    'class' => 'form-control mb-3',
+                    // 'hint' => 'Must be an image and cropped in desired size',
+                    // 'rules' => 'image|max:1000',
+                    'disk' => 'local', // which disk you want to upload, default to 'public'
+                    'path' => 'app/uploads', // path on the disk, default to '/',
+                    'preview_class' => 'img-thumbnail img-fluid w-50', // class for preview of uploaded image
+                    'preview_style' => 'height:60px' // style for preview
                 ]
-            ]
-        ],
-        'email' => [
-            'title' => 'Email Settings',
-            'descriptions' => 'How app email will be sent.',
-            'icon' => 'fa fa-envelope',
 
-            'inputs' => [
-                [
-                    'name' => 'from_email',
-                    'type' => 'email',
-                    'label' => 'From Email',
-                    'placeholder' => 'Application from email',
-                    'rules' => 'required|email',
-                ],
-                [
-                    'name' => 'from_name',
-                    'type' => 'text',
-                    'label' => 'Email from Name',
-                    'placeholder' => 'Email from Name',
-                ]
-            ]
-        ]
+                // [
+                //     'name' => 'logo',
+                //     'type' => 'image',
+                //     'label' => 'Upload logo',
+                //     'hint' => 'Must be an image and cropped in desired size',
+                //     'rules' => 'image|max:500',
+                //     'disk' => 'public', // which disk you want to upload
+                //     'path' => 'app', // path on the disk,
+                //     'preview_class' => 'thumbnail',
+                //     'preview_style' => 'height:40px',
+                // ],
+            ],
+        ],
+        // 'email' => [
+        //     'title' => 'Email Settings',
+        //     'descriptions' => 'How app email will be sent.',
+        //     'icon' => 'fa fa-envelope',
+
+        //     'inputs' => [
+        //         [
+        //             'name' => 'from_email',
+        //             'type' => 'email',
+        //             'label' => 'From Email',
+        //             'placeholder' => 'Application from email',
+        //             'rules' => 'required|email',
+        //         ],
+        //         [
+        //             'name' => 'from_name',
+        //             'type' => 'text',
+        //             'label' => 'Email from Name',
+        //             'placeholder' => 'Email from Name',
+        //         ],
+        //     ],
+        // ],
     ],
 
     // Setting page url, will be used for get and post request
     'url' => 'settings',
 
     // Any middleware you want to run on above route
-    'middleware' => [],
+    'middleware' => ['auth'],
 
     // Route Names
     'route_names' => [
         'index' => 'settings.index',
         'store' => 'settings.store',
     ],
-    
+
     // View settings
-    'setting_page_view' => 'app_settings::settings_page',
+    'setting_page_view' => 'admin.pages.settings.app-settings',
     'flash_partial' => 'app_settings::_flash',
 
     // Setting section class setting
@@ -98,8 +135,8 @@ return [
     'controller' => '\QCod\AppSettings\Controllers\AppSettingController',
 
     // settings group
-    'setting_group' => function() {
-        // return 'user_'.auth()->id();
-        return 'default';
-    }
+    'setting_group' => function () {
+        return 'user_' . auth()->id();
+        // return 'default';
+    },
 ];

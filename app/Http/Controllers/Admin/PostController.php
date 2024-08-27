@@ -6,12 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Post;
 use Auth;
-use Illuminate\Support\Facades\Session;
+use File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\Imagick\Driver;
-use File;
 
 class PostController extends Controller
 {
@@ -38,52 +37,61 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
         $post = new Post();
 
         $this->validate($request, [
-            'title'             => 'required',
-            'category_id'       => 'required',
-            'post_desc'         => 'required',
-            'status'            => 'required|numeric',
-            'image'             => 'nullable|image',
+            'title' => 'required',
+            'position' => 'required',
+            'category_id' => 'required',
+            'post_desc' => 'required',
+            'status' => 'required|numeric',
+            'image' => 'nullable|image',
         ],
-        [
-            'title.required'        => 'Please Type the News Title',
-            'category_id.required'  => 'Please Select the Category Name',
-            'short_desc.required'   => 'Please Type Category Details',
-            'status.required'       => 'Please Select the Active Status',
-            'image.required'        => 'Provide a Valid Format (.jpg, .jpeg, .png)'
-        ]);
+            [
+                'title.required' => 'Please Type the News Title',
+                'position.required' => 'Please Type the News position',
+                'category_id.required' => 'Please Select the Category Name',
+                'short_desc.required' => 'Please Type Category Details',
+                'status.required' => 'Please Select the Active Status',
+                'image.required' => 'Provide a Valid Format (.jpg, .jpeg, .png)',
+            ]);
 
-        $post->title            = $request->title;
-        $post->highlight_line   = $request->highlight_line;
-        $post->slug             = Str::slug($request->title);
-        $post->category_id      = $request->category_id;
-        $post->post_desc        = $request->post_desc;
-        $post->status           = $request->status;
-        $post->tags             = $request->tags;
-        $post->author_id        = Auth::user()->id;
+        $post->title = $request->title;
+        $post->highlight_line = $request->highlight_line;
+        $post->position = $request->position;
+        $post->slug = Str::slug($request->title);
+        $post->category_id = $request->category_id;
+        $post->post_desc = $request->post_desc;
+        $post->status = $request->status;
+        $post->tags = $request->tags;
+        $post->author_id = Auth::user()->id;
 
-        if ( $request->image ){
+        if ($request->image) {
 
-            $image = $request->file('image');
+            // create image manager with desired driver
             $manager = new ImageManager(new Driver());
-            $name_gen = time() . '-icon.' . $image->getClientOriginalExtension();
-            $img = $manager->read($image);
-            $img = $img->resize(750,560);
-            $location = public_path("uploads/news/" . $name_gen);
-            $img->save($location);
-            $post->image = $name_gen;
-            
+
+            $name_gen = time() . '-icon.' . $request->file('image')->getClientOriginalExtension();
+// read image from file system
+            $image = $manager->read($request->file('image'));
+
+            $image->resize(750, 560);
+
+// save modified image in new format
+            $image->toPng()->save(storage_path('app/uploads/news/') . $name_gen);
+            $path = 'uploads/news/' . $name_gen;
+            $post->image = $path;
+
         }
 
-        // dd($category);
+        // dd($post);
 
         $post->save();
 
         $notification = array(
-            'message'       => 'News Added Successfully',
-            'alert-type'    => 'success',
+            'message' => 'News Added Successfully',
+            'alert-type' => 'success',
         );
 
         return redirect()->route('post.manage')->with($notification);
@@ -94,7 +102,7 @@ class PostController extends Controller
      */
     public function show(string $id)
     {
-        
+
     }
 
     /**
@@ -104,7 +112,7 @@ class PostController extends Controller
     {
         $post = Post::find($id);
 
-        if ( !is_null( $post ) ){
+        if (!is_null($post)) {
             $categories = Category::orderBy('name', 'asc')->get();
             return view('admin.pages.post.edit', compact('categories', 'post'));
         }
@@ -117,47 +125,47 @@ class PostController extends Controller
     {
         $post = Post::find($id);
 
-        if ( !is_null( $post ) ){
+        if (!is_null($post)) {
             $this->validate($request, [
-                'title'             => 'required',
-                'category_id'       => 'required',
-                'post_desc'         => 'required',
-                'status'            => 'required|numeric',
-                'image'             => 'nullable|image',
+                'title' => 'required',
+                'category_id' => 'required',
+                'post_desc' => 'required',
+                'status' => 'required|numeric',
+                'image' => 'nullable|image',
             ],
-            [
-                'title.required'        => 'Please Type the News Title',
-                'category_id.required'  => 'Please Select the Category Name',
-                'short_desc.required'   => 'Please Type Category Details',
-                'status.required'       => 'Please Select the Active Status',
-                'image.required'        => 'Provide a Valid Format (.jpg, .jpeg, .png)'
-            ]);
+                [
+                    'title.required' => 'Please Type the News Title',
+                    'category_id.required' => 'Please Select the Category Name',
+                    'short_desc.required' => 'Please Type Category Details',
+                    'status.required' => 'Please Select the Active Status',
+                    'image.required' => 'Provide a Valid Format (.jpg, .jpeg, .png)',
+                ]);
 
-            $post->title            = $request->title;
-            $post->highlight_line   = $request->highlight_line;
-            $post->slug             = Str::slug($request->title);
-            $post->category_id      = $request->category_id;
-            $post->post_desc        = $request->post_desc;
-            $post->status           = $request->status;
-            $post->tags             = $request->tags;
-            $post->author_id        = Auth::user()->id;
+            $post->title = $request->title;
+            $post->highlight_line = $request->highlight_line;
+            $post->slug = Str::slug($request->title);
+            $post->category_id = $request->category_id;
+            $post->post_desc = $request->post_desc;
+            $post->status = $request->status;
+            $post->tags = $request->tags;
+            $post->author_id = Auth::user()->id;
 
-            if ( $request->image ){
+            if ($request->image) {
 
                 // Remove Old Image
-                if ( File::exists('uploads/news/' . $post->image ) ){
-                    File::delete('uploads/news/' . $post->image );
+                if (File::exists('uploads/news/' . $post->image)) {
+                    File::delete('uploads/news/' . $post->image);
                 }
 
                 $image = $request->file('image');
                 $manager = new ImageManager(new Driver());
                 $name_gen = time() . '-icon.' . $image->getClientOriginalExtension();
                 $img = $manager->read($image);
-                $img = $img->resize(750,560);
+                $img = $img->resize(750, 560);
                 $location = public_path("uploads/news/" . $name_gen);
                 $img->save($location);
                 $post->image = $name_gen;
-                
+
             }
 
             // dd($category);
@@ -165,8 +173,8 @@ class PostController extends Controller
             $post->save();
 
             $notification = array(
-                'message'       => 'News Updated Successfully',
-                'alert-type'    => 'warning',
+                'message' => 'News Updated Successfully',
+                'alert-type' => 'warning',
             );
 
             return redirect()->route('post.manage')->with($notification);
@@ -180,12 +188,12 @@ class PostController extends Controller
     {
         $post = Post::find($id);
 
-        if ( !is_null($post) ){
+        if (!is_null($post)) {
             $post->delete();
 
             $notification = array(
-                'message'       => 'News Deleted Successfully',
-                'alert-type'    => 'error',
+                'message' => 'News Deleted Successfully',
+                'alert-type' => 'error',
             );
 
             return redirect()->route('post.manage')->with($notification);

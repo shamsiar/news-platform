@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Coupon;
-use App\Models\Service;
-use App\Models\SubService;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class FrontendPagesController extends Controller
@@ -15,24 +13,14 @@ class FrontendPagesController extends Controller
      */
     public function homepage()
     {
-        return view('frontend.pages.homepage');
-    }
+        $head_post = Post::where("status", 1)->latest()->first();
+        $sub_posts = Post::where("status", 1)->latest()->skip(0)->take(3)->get();
+        $all_posts = Post::where("status", 1)->latest()->get();
+        $posts = collect($all_posts)->splice(4)->all();
 
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+        // dd($sub_posts, $records, $head_post);
+        // $post1 = Post::where("status",1)->latest()->first();
+        return view('frontend.pages.homepage', compact('posts', 'sub_posts', 'head_post'));
     }
 
     /**

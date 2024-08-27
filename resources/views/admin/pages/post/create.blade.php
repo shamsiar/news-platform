@@ -11,7 +11,7 @@
 
 
 @section('body-content')
-		
+
 
     <div class="page-content">
         <div class="container-fluid">
@@ -42,7 +42,7 @@
                         <div class="card-header d-flex align-items-center">
                             <h4 class="card-title flex-grow-1 mb-0">Add New News</h4>
                             <div class="flex-shrink-0">
-                                
+
                             </div>
                         </div>
                         <!-- end cardheader -->
@@ -65,6 +65,11 @@
                                         </div>
 
                                         <div class="mb-3">
+                                            <label for="position" class="form-label">Post Position</label>
+                                            <input type="number" name="position" id="position" value="{{ old('position') }}" class="form-control" placeholder="Position 1 for Head 2 for bottom 3 for side" required="required">
+                                        </div>
+
+                                        <div class="mb-3">
                                             <label for="category-id" class="form-label">Please Select the Category of the News</label>
                                             <select class="form-select" name="category_id" id="category-id" required>
                                                 <option value="0">Choose...</option>
@@ -72,7 +77,7 @@
                                                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                                                 @endforeach
                                             </select>
-                                        </div>  
+                                        </div>
 
                                         <div class="mb-3">
                                             <label for="category-status" class="form-label">Status</label>
@@ -81,7 +86,7 @@
                                                 <option value="1">Active</option>
                                                 <option value="2">Inactive</option>
                                             </select>
-                                        </div>   
+                                        </div>
 
                                         <div class="mb-3">
                                             <label for="tags" class="form-label">Tags [Use Commaa (,) for Separate Tags]</label>
@@ -89,15 +94,15 @@
                                         </div>
 
                                         <div class="mb-3">
-                                            <label class="form-label">Upload Main Thumbnail Image</label>
+                                            <label class="form-label">Upload Image</label>
                                             <input type="file" class="form-control" name="image">
-                                        </div>    
+                                        </div>
                                     </div>
 
-                                    <div class="col-xl-8">  
+                                    <div class="col-xl-8">
                                         <div class="mb-3">
-                                            <label for="post_desc" class="form-label">Short Description</label>
-                                            <textarea class="form-control ckeditor-classic" rows="22" name="post_desc" id="post_desc" placeholder="Write short description...">{{ old('post_desc') }}</textarea> 
+                                            <label for="post_desc" class="form-label">Description</label>
+                                            <textarea id="summernote" name="post_desc">{{ old('post_desc') }}</textarea>
                                         </div>
                                     </div>
 
@@ -108,7 +113,7 @@
                                     </div>
 
                                 </div>
-                                
+
                             </form>
 
                         </div>
@@ -122,13 +127,30 @@
         <!-- container-fluid -->
     </div>
     <!-- End Page-content -->
-        
+
 @endsection
 
 
 @section('js-content')
-    <!-- init js -->
-    <script src="assets/js/pages/form-editor.init.js"></script>
-    <!-- ckeditor -->
-    <script src="assets/libs/%40ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
+<script>
+    $(document).ready(function() {
+        // $('#summernote').summernote();
+        $('#summernote').summernote({
+        // placeholder: 'Hello Bootstrap 5',
+        tabsize: 2,
+        height: 500,
+        toolbar: [
+          ['style', ['style']],
+          ['font', ['bold', 'underline', 'clear']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['table', ['table']],
+          ['insert', ['link', 'picture', 'video']],
+          ['view', ['fullscreen', 'codeview', 'help']]
+        ]
+      });
+    });
+
+</script>
+
 @endsection

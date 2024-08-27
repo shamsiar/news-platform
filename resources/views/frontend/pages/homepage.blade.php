@@ -5,7 +5,7 @@
 @section('body-content')
   <header class="header">
     <div class="container">
-      <div class="row"> 
+      <div class="row">
         <div class="col-lg-12">
           <div class="logo">
             <a href="index.html">
@@ -17,57 +17,62 @@
     </div>
   </header>
 
-  <div class="container bg-light mt-2">
+  <div class="bg-light container mt-2">
     <div class="row">
-
       <!-- main content start -->
       <div class="col-lg-8">
         <!-- main blog post start -->
         <div class="main-featured-post">
-          <h1>CJ Obaidul Hassan, 5 SC judges resign</h1>
-          <h4>Justice Sayed Refaat Ahmed made a new CJ</h4>
+          <h1>{{ $head_post->title }}</h1>
+          <h4>{{ $head_post->hightlight_line }}</h4>
           <div class="post-body">
             <div class="row">
               <div class="col-md-4">
-                <h6 class="author">Staff Correspondent</h6>
-                <p>Al Jazeera’s Tanvir Chowdhury, reporting from Dhaka, said students decided to take to the streets when they heard reports that Hassan was holding a meeting with justices of the Appellate Division.</p>
-                <p>Al Jazeera’s Tanvir Chowdhury, reporting from Dhaka, said students decided to take to the streets when they heard reports that Hassan was holding a meeting with justices of the Appellate Division.</p>
-                <p>Al Jazeera’s Tanvir Chowdhury, reporting from Dhaka, said students decided to take to the streets when they heard reports that Hassan was holding a meeting with justices of the Appellate Division.</p>
-                
+                <h6 class="author">{{ $head_post->author->name }}</h6>
+                {!! $head_post->post_desc !!}
+                <a href="javascript:void(0)" class="link-btn" data-bs-toggle="modal"
+                  data-bs-target="#viewPost{{ $head_post->id }}">See More</a>
               </div>
-              <div class="col-md-4">
+              {{-- <div class="col-md-4">
                 <div class="featured-img">
-                  <img src="{{ asset('frontend/images/Justice-Obaidul-Hassan.jpg') }}" alt="" class="img-fluid">
+                  <img src="{{ url($head_post->image) }}" alt="" class="img-fluid">
                   <p class="caption text-center">Obaidul Hasan</p>
                 </div>
-                <p>Al Jazeera’s Tanvir Chowdhury, reporting from Dhaka, said students decided to take to the streets when they heard reports that Hassan was holding.</p>
-                <p>Hassan oversaw a much-criticised war crimes tribunal that ordered the execution of Hasina’s opponents.</p>
+                <p>Al Jazeera’s Tanvir Chowdhury, reporting from Dhaka, said students decided to take to the streets when
+                  they heard reports that Hassan was holding.</p>
+                <p>Hassan oversaw a much-criticised war crimes tribunal that ordered the execution of Hasina’s opponents.
+                </p>
               </div>
               <div class="col-md-4">
-                <p>Al Jazeera’s Tanvir Chowdhury, reporting from Dhaka, said students decided to take to the streets when they heard reports that Hassan was holding a meeting with justices of the Appellate Division.</p>
-                <p>Al Jazeera’s Tanvir Chowdhury, reporting from Dhaka, said students decided to take to the streets when they heard reports that Hassan was holding a meeting with justices of the Appellate Division.</p>
-                <p>Al Jazeera’s Tanvir Chowdhury, reporting from Dhaka, said students decided to take to the streets when they heard reports that Hassan was holding a meeting with justices of the Appellate Division.</p>
+                <p>Al Jazeera’s Tanvir Chowdhury, reporting from Dhaka, said students decided to take to the streets when
+                  they heard reports that Hassan was holding a meeting with justices of the Appellate Division.</p>
+                <p>Al Jazeera’s Tanvir Chowdhury, reporting from Dhaka, said students decided to take to the streets when
+                  they heard reports that Hassan was holding a meeting with justices of the Appellate Division.</p>
+                <p>Al Jazeera’s Tanvir Chowdhury, reporting from Dhaka, said students decided to take to the streets when
+                  they heard reports that Hassan was holding a meeting with justices of the Appellate Division.</p>
                 <a href="" class="link-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">See More</a>
-              </div>
+              </div> --}}
             </div>
           </div>
         </div>
 
         <!-- Modal code goes here -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="viewPost{{ $head_post->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
           <div class="modal-dialog modal-dialog-scrollable modal-lg">
             <div class="modal-content">
               <div class="modal-header">
                 <img src="{{ asset('frontend/images/logo.png') }}" alt="logo" class="img-fluid">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
-              <div class="modal-body">
-                <h2>CJ Obaidul Hassan, 5 SC judges resign</h2>
+              <div class="modal-body" id="main-content">
+                <h2></h2>
                 <div class="row">
                   <div class="col-12">
                     <img src="{{ asset('frontend/images/author.png') }}" alt="editor" class="author">
                     <h4>Report</h4>
-                    <p><small class="text-body-secondary">Sat Aug 10, 2024 07:19 PM Last update on: Sat Aug 10 07:19 PM</small></p>
+                    <p><small class="text-body-secondary">Sat Aug 10, 2024 07:19 PM Last update on: Sat Aug 10 07:19
+                        PM</small></p>
                   </div>
                 </div>
                 <div class="row">
@@ -117,7 +122,7 @@
                 </div>
                 <div class="row">
                   <div class="col-lg-12">
-                    <img src="{{ asset('frontend/images/1.png') }}" alt="" class="img-fluid">
+                    <img src="{{ url($head_post->image) }}" alt="" class="img-fluid">
                   </div>
                 </div>
 
@@ -127,13 +132,40 @@
                   </div>
                 </div>
                 <p>
-                  Lorem, ipsum dolor sit amet consectetur, adipisicing elit. Atque magni temporibus, quia voluptatum maxime! Non repudiandae, rem! Dolorem, impedit mollitia molestiae et, ea asperiores non sunt pariatur cum est saepe. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cupiditate voluptatum facere nulla, voluptas quidem corporis, sunt quia placeat, porro quae qui aut inventore aliquam excepturi architecto deserunt, iusto incidunt quaerat! Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit neque alias aperiam ratione quas, eligendi praesentium recusandae debitis, laborum, perferendis itaque, vitae reprehenderit enim eum? Officia quam, quos ex asperiores. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consectetur eligendi eaque optio minima aliquid accusantium quas velit cumque assumenda obcaecati corrupti aut adipisci, quam id architecto nam quod, saepe? Praesentium. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque voluptatum numquam minus quis qui eum iste explicabo voluptas quos possimus. Voluptatibus nobis exercitationem quos, ipsam ducimus harum totam perspiciatis asperiores. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vitae modi quos necessitatibus iure voluptate est sit, delectus consequatur voluptatem, nostrum vel, mollitia impedit, nisi? Autem, iusto blanditiis ut laborum perspiciatis. Lorem ipsum dolor sit amet consectetur adipisicing, elit. Illum eveniet obcaecati, omnis, possimus tempore maiores distinctio ratione aspernatur corrupti, laudantium eaque commodi labore eligendi sit veniam vero dignissimos ab veritatis!
+                  {!! $head_post->post_desc !!}
                 </p>
               </div>
-              
+
             </div>
           </div>
         </div>
+
+        <!-- View Modal -->
+        {{-- <div id="viewPost{{ $post->id }}" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel"
+          aria-hidden="true" style="display: none;">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+              </div>
+              <div class="modal-body text-center">
+                @if (!empty($post->icon))
+                  <img src="{{ asset('uploads/icon/' . $post->icon) }}" class="rounded-circle mb-10 me-1" alt="">
+                @endif
+                <h5 class="modal-title mb-25">{{ $post->name }}</h5>
+                <p class="text-muted"><strong>News Details:</strong> {{ $post->post_desc }}</p>
+                <p class="text-muted">Status
+                  @if ($post->status == 1)
+                    <span class="badge text-bg-success">Active</span>
+                  @elseif ($post->status == 2)
+                    <span class="badge text-bg-danger">Inactive</span>
+                  @endif
+                </p>
+              </div>
+            </div>
+          </div>
+        </div> --}}
 
         <!-- Modal code end here -->
 
@@ -148,162 +180,89 @@
         <!-- blog post start -->
         <div class="blog-post">
           <div class="row">
-            <div class="col-lg-4">
-              <div class="card h-100">
-                <img src="{{ asset('frontend/images/Justice-Obaidul-Hassan.jpg') }}" class="img-fluid" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title"><a href="">Lorem ipsum dolor sit amet consectetur</a></h5>
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis nesciunt optio ab doloribus a necessitatibus natus obcaecati</p>
-                  <a href="" class="link-btn">See More</a>
+            @foreach ($sub_posts as $sub)
+              <div class="col-lg-4">
+                <div class="card h-100">
+                  <img src="{{ url($sub->image) }}" class="img-fluid" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title"><a href="javascript:void(0)" data-bs-toggle="modal"
+                        data-bs-target="#viewPost{{ $sub->id }}">{{ $sub->title }}</a></h5>
+                    <p>{{ $sub->highlight_line }}</p>
+                    <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#viewPost{{ $sub->id }}"
+                      class="link-btn">See More</a>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="col-lg-4">
-              <div class="card h-100">
-                <img src="{{ asset('frontend/images/Justice-Obaidul-Hassan.jpg') }}" class="img-fluid" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title"><a href="">Lorem ipsum dolor sit amet consectetur</a></h5>
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis nesciunt optio ab doloribus a necessitatibus natus obcaecati</p>
-                  <a href="" class="link-btn">See More</a>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-4">
-              <div class="card h-100">
-                <img src="{{ asset('frontend/images/Justice-Obaidul-Hassan.jpg') }}" class="img-fluid" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title"><a href="">Lorem ipsum dolor sit amet consectetur</a></h5>
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis nesciunt optio ab doloribus a necessitatibus natus obcaecati</p>
-                  <a href="" class="link-btn">See More</a>
-                </div>
-              </div>
-            </div>
+            @endforeach
           </div>
         </div>
         <!--  blog post start -->
       </div>
       <!-- main content end -->
 
-
       <!-- sidebar start -->
       <div class="col-lg-4">
         <div class="sidebar">
           <div class="row">
-            <div class="col-md-12">
-              <div class="sidebar-post">
-                <div class="row">
-                  <div class="col-8">
-                    <h6><a href="">Chief Justice Obaidul Hassan Resigns</a></h6>
-                    <p><small class="text-body-secondary">5 hours ago</small></p>
-                  </div>
-                  <div class="col-4">
-                    <img src="{{ asset('frontend/images/Justice-Obaidul-Hassan.jpg') }}" class="img-fluid" alt="...">
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-12">
-              <div class="sidebar-post">
-                <div class="row">
-                  <div class="col-md-12">
-                    <h6><a href="">Police Services Resume at 361 Stations after 3 days</a></h6>
-                    <p><small class="text-body-secondary">9 hours ago</small></p>
+            @foreach ($posts as $post)
+              <div class="col-md-12">
+                <div class="sidebar-post">
+                  <div class="row">
+                    <div class="col-8">
+                      <h6><a href="javascript:void(0)" data-bs-toggle="modal"
+                          data-bs-target="#viewPost{{ $sub->id }}">{{ $post->title }}</a></h6>
+                      <p><small class="text-body-secondary">5 hours ago</small></p>
+                    </div>
+                    <div class="col-4">
+                      <img src="{{ url($post->image) }}" class="img-fluid" alt="...">
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-
-            <div class="col-md-12">
-              <div class="sidebar-post">
-                <div class="row">
-                  <div class="col-md-12">
-                    <h6><a href="">Police Services Resume at 361 Stations after 3 days</a></h6>
-                    <p><small class="text-body-secondary">10 hours ago</small></p>
-                  </div>
+              <!-- siderbar add start -->
+              @if ($loop->iteration == 4)
+                <div class="col-md-12">
+                  <img src="{{ asset('frontend/images/sadd.png') }}" alt="sidebar add" class="img-fluid sidebar-add">
                 </div>
-              </div>
-            </div>
+              @endif
+            @endforeach
 
-            <div class="col-md-12">
-              <div class="sidebar-post">
-                <div class="row">
-                  <div class="col-md-12">
-                    <h6><a href="">Police Services Resume at 361 Stations after 3 days</a></h6>
-                    <p><small class="text-body-secondary">11 hours ago</small></p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-12">
-              <div class="sidebar-post">
-                <div class="row">
-                  <div class="col-md-12">
-                    <h6><a href="">Police Services Resume at 361 Stations after 3 days</a></h6>
-                    <p><small class="text-body-secondary">12 hours ago</small></p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-
-          <!-- siderbar add start -->
-          <div class="row">
-            <div class="col-md-12">
-              <img src="{{ asset('frontend/images/sadd.png') }}" alt="sidebar add" class="img-fluid sidebar-add">
-            </div>
-          </div>
-
-          <!-- siderbar add end -->
-
-          <div class="row">
-            <div class="col-md-12">
-              <div class="sidebar-post">
-                <div class="row">
-                  <div class="col-8">
-                    <h6><a href="">CJ Obaidul Hassan, 5 SC judges resign</a></h6>
-                    <p><small class="text-body-secondary">5 hours ago</small></p>
-                  </div>
-                  <div class="col-4">
-                    <img src="{{ asset('frontend/images/1.png') }}" class="img-fluid" alt="...">
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-12">
-              <div class="sidebar-post">
-                <div class="row">
-                  <div class="col-md-12">
-                    <h6><a href="">Lorem ipsum dolor sit, amet, consectetur adipisicing elit. </a></h6>
-                    <p><small class="text-body-secondary">9 hours ago</small></p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-12">
-              <div class="sidebar-post">
-                <div class="row">
-                  <div class="col-md-12">
-                    <h6><a href="">Lorem ipsum dolor sit, amet, consectetur adipisicing elit. </a></h6>
-                    <p><small class="text-body-secondary">10 hours ago</small></p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
           </div>
         </div>
+        <!-- sidebar end -->
       </div>
-      <!-- sidebar end -->
     </div>
-  </div>
-@endsection
+  @endsection
 
+  @section('js-codes')
+    {{-- <script type="text/javascript">
+      $(document).ready(function() {
 
-@section('js-codes')
+        /* When click show user */
+        $('body').on('click', '#show-user', function() {
+          var url = $(this).data('url');
+          console.log(url);
 
-@endsection
+          $.get(url, function(data) {
+            $('#exampleModal').modal('show');
+            $("#main-content").html(data);
+            //   $('#user-id').text(data.id);
+            //   $('#user-name').text(data.name);
+            //   $('#user-email').text(data.email);
+          })
+        });
+
+      });
+    </script> --}}
+    {{-- <script>
+      //   $(document).ready(function() {
+      $('#exampleModal').on('shown.bs.modal', function(e) {
+        var i = $(e.relatedTarget).data('id');
+        console.log(i);
+        //   $("#main-content").html('<h2 >' + radio[i].name + '<br>' +
+        // radio[i].address + '<br>' + radio[i].phone + '</h2>');
+      })
+
+      //   });
+    </script> --}}
+  @endsection
